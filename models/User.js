@@ -1,38 +1,46 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     email: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
-        lowercase: true
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
     },
     password: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     notificationSettings: {
-        enabled: {
-            type: Boolean,
-            default: true
-        },
-        priorities: {
-            type: [String],
-            enum: ['low', 'medium', 'high'],
-            default: ['high', 'medium']
-        },
-        reminderTime: {
-            type: Number,
-            default: 2,
-            min: 1,
-            max: 24
-        }
-    }
-}, {
-    timestamps: true
-});
+      enabled: {
+        type: Boolean,
+        default: true,
+      },
+      priorities: {
+        type: [String],
+        enum: ["low", "medium", "high"],
+        default: ["high", "medium"],
+      },
+      reminderTime: {
+        type: Number,
+        default: 2,
+        min: 1,
+        max: 24,
+      },
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 // Hash password before saving
 userSchema.pre('save', async function(next) {
